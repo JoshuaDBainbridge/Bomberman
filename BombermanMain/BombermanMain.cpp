@@ -2,10 +2,89 @@
 //
 
 #include <iostream>
+#include <unordered_map>
+#include <unordered_set>
+#include <string.h>
+using namespace std;
+
+class Enity {
+private:
+    string id;
+    char weapon;
+    char type; 
+    string position; 
+    bool alive = true;
+public:
+    Enity(string newE, string pos) {
+        if (newE.length() == 1) {
+            type = 'R';
+            position = pos;
+            weapon = newE[1];
+            id = "R";
+        }
+        else {
+            position = pos;
+            weapon = newE[1];
+            id = newE;
+            if (newE[0] == 'P') {
+                type = 'P';
+            }
+            else {
+                type = 'E';
+            }
+        }
+    }
+    void showDetails() {
+        std::cout << "Type: " << type << " Wepon: " << weapon << " pos " << position << std::endl; 
+    }
+    ~Enity(){}
+};
+
+class GameBoard {
+private: 
+    unordered_map<string, unique_ptr<Enity>> testMap;
+public: 
+    GameBoard() {
+        
+    }
+    void addEnity(string newE, string pos) {
+        testMap.insert({ pos, make_unique<Enity>(newE, pos)});
+        testMap[pos]->showDetails();
+
+    }
+    bool detectEnity(string pos) {
+        if (testMap[pos] != NULL) {
+            std::cout << "space used";
+            return true; 
+        }
+        else {
+            return false; 
+        }
+    }
+    unique_ptr<Enity> getEnity(string pos) {
+        if (testMap[pos] != NULL) {
+            return testMap[pos];
+        }
+    }
+};
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    //GameBoard gb;
+    //Enity test("PA", "0000");
+    //test.showDetails();
+
+    //unordered_map<string, unique_ptr<Enity>> testMap;
+    //unique_ptr<Enity> test2(new Enity("EA0", "0001"));
+    //testMap.insert({"A0E", make_unique<Enity>("EA0", "0001")});
+    //unique_ptr<Enity> test2 (new Enity("EA0", "0001"));
+    //test2->showDetails();
+    //testMap["A0E"] -> showDetails();
+        
+    unique_ptr<GameBoard> gb(new GameBoard());
+    gb->addEnity("EA0", "1919");
+    gb->detectEnity("1919");
+    std::cout << std::endl << "Hello World!\n";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
