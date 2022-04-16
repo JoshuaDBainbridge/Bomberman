@@ -4,7 +4,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <unordered_set>
-#include <string.h>
+#include <string>
 using namespace std;
 
 class Enity {
@@ -16,6 +16,7 @@ private:
     bool alive = true;
 public:
     Enity(string newE, string pos) {
+        std::cout << newE << std::endl;
         if (newE.length() == 1) {
             type = 'R';
             position = pos;
@@ -34,37 +35,165 @@ public:
             }
         }
     }
-    void showDetails() {
-        std::cout << "Type: " << type << " Wepon: " << weapon << " pos " << position << std::endl; 
+    void setPosition(string pos) {
+        position = pos; 
+    }
+    string getPosition() {
+        return position; 
+    }
+    char getWeapon() {
+        return weapon; 
+    }
+    void printEnity() {
+        std::cout << "Type: " << type << " Wepon: " << weapon << " pos " << position << std::endl;
     }
     ~Enity(){}
 };
 
 class GameBoard {
 private: 
-    unordered_map<string, unique_ptr<Enity>> testMap;
+    int mapSize = 20; 
+    unordered_map<string, unique_ptr<Enity>> characterList;
+    unordered_map<string, string> map; 
 public: 
     GameBoard() {
-        
-    }
-    void addEnity(string newE, string pos) {
-        testMap.insert({ pos, make_unique<Enity>(newE, pos)});
-        testMap[pos]->showDetails();
 
     }
-    bool detectEnity(string pos) {
-        if (testMap[pos] != NULL) {
-            std::cout << "space used";
+    void addEnity(string name, string newE, string pos) {
+        if (name[0] != 'R') {
+            characterList.insert({name, make_unique<Enity>(newE, pos) });
+            characterList[name]->printEnity();
+        }
+        map.insert({pos, name});
+        //std::cout << "\n" << map[pos];
+        //characterList[map[pos]]->printEnity();
+    }
+    void moveEnityUP(string name) {
+        int x, y;
+        string newPos; 
+        if (characterList[name] != NULL){
+            x = (std::stoi(characterList[name]->getPosition())) % 100;
+            y = (std::stoi(characterList[name]->getPosition())) / 100;
+            if (y > 0) {
+                newPos = to_string(100 * (y - 1) + x);
+                if (newPos.length() < 4) {
+                    newPos = "0" + newPos;
+                }
+                if (isSpaceEmpty(newPos)) {
+                    map.erase(characterList[name]->getPosition());
+                    map[newPos] = name;
+                    characterList[name]->setPosition(newPos);
+                    characterList[name]->printEnity();
+                }
+            }
+        }
+    }
+    void moveEnityDOWN(string name) {
+        int x, y;
+        string newPos;
+        if (characterList[name] != NULL) {
+            x = (std::stoi(characterList[name]->getPosition())) % 100;
+            y = (std::stoi(characterList[name]->getPosition())) / 100;
+            if (y < 19) {
+                newPos = to_string(100 * (y + 1) + x);
+                if (newPos.length() < 4) {
+                    newPos = "0" + newPos;
+                }
+                if (isSpaceEmpty(newPos)) {
+                    map.erase(characterList[name]->getPosition());
+                    map[newPos] = name;
+                    characterList[name]->setPosition(newPos);
+                    characterList[name]->printEnity();
+                }
+            }
+        }
+    }
+    void moveEnityLEFT(string name) {
+        int x, y;
+        string newPos;
+        if (characterList[name] != NULL) {
+            x = (std::stoi(characterList[name]->getPosition())) % 100;
+            y = (std::stoi(characterList[name]->getPosition())) / 100;
+            if (x > 0) {
+                newPos = to_string(100 * y + (x - 1));
+
+                if (isSpaceEmpty(newPos)) {
+                    map.erase(characterList[name]->getPosition());
+                    map[newPos] = name;
+                    characterList[name]->setPosition(newPos);
+                    characterList[name]->printEnity();
+                }
+            }
+        }
+    }
+    void moveEnityRIGHT(string name) {
+        int x, y;
+        string newPos;
+        if (characterList[name] != NULL) {
+            x = (std::stoi(characterList[name]->getPosition())) % 100;
+            y = (std::stoi(characterList[name]->getPosition())) / 100;
+            if (x < 19) {
+                newPos = to_string(100 * y + (x + 1));
+
+                if (isSpaceEmpty(newPos)) {
+                    map.erase(characterList[name]->getPosition());
+                    map[newPos] = name;
+                    characterList[name]->setPosition(newPos);
+                    characterList[name]->printEnity();
+                }
+            }
+        }
+    }
+    
+    void attack(string name) {
+        int x, y;
+        string atkPos;
+        if (characterList[name] != NULL) {
+            x = (std::stoi(characterList[name]->getPosition())) % 100;
+            y = (std::stoi(characterList[name]->getPosition())) / 100;
+            if (characterList[name]->getWeapon() == 'A') {
+                for (int j = y - 1; j <= y + 1; j++) {
+                    for (int i = x - 1; i <= x + 1; i++) {
+                        atkPos = to_string(100 * (j) + i);
+                        if (atkPos.length() < 4) {
+                            atkPos = "0" + atkPos;
+                        }
+                        std::cout << atkPos << std::endl;
+                        
+                        if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
+                            if (map[atkPos][0] == 'E' || map[atkPos][0] == 'P') {
+                                deleteEnity(map[atkPos]);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (characterList[name]->getWeapon() == 'V') {
+
+            }
+            else if (characterList[name]->getWeapon() == 'H') {
+
+            }
+            else {
+                std::cout << "WEAPON ERROR: UNKNOWN WEAPON" << std::endl;
+            }
+        }
+    }
+
+
+    bool isSpaceEmpty(string pos) {
+        if (map[pos].empty()) {
             return true; 
         }
         else {
             return false; 
         }
     }
-    unique_ptr<Enity> getEnity(string pos) {
-        if (testMap[pos] != NULL) {
-            return testMap[pos];
-        }
+    void deleteEnity(string name) {
+        std::cout << "\n" << name << "\n";
+        map.erase(characterList[name]->getPosition());
+        characterList[name]->~Enity();
+        characterList.erase(name);
     }
 };
 
@@ -82,8 +211,21 @@ int main()
     //testMap["A0E"] -> showDetails();
         
     unique_ptr<GameBoard> gb(new GameBoard());
-    gb->addEnity("EA0", "1919");
-    gb->detectEnity("1919");
+    gb->addEnity("E0","EA0", "1010");
+    gb->addEnity("E1", "EV1", "0910");
+    gb->addEnity("E2", "EV2", "1110");
+    gb->addEnity("E3", "EV3", "1009");
+    gb->addEnity("E4","EV4", "1011");
+    gb->addEnity("R", "R", "0000");
+    //gb->isSpaceEmpty("1919");
+    //gb->deleteEnity("E0");
+    gb->moveEnityUP("E0");
+    gb->moveEnityDOWN("E0");
+    gb->moveEnityLEFT("E0");
+    gb->moveEnityRIGHT("E0");
+    
+    gb->attack("E0");
+
     std::cout << std::endl << "Hello World!\n";
 }
 
