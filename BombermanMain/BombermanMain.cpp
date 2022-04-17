@@ -18,7 +18,6 @@ private:
     bool alive = true;
 public:
     Enity(string newE, int pos) {
-        std::cout << newE << std::endl;
         if (newE.length() == 1) {
             type = 'R';
             position = pos;
@@ -70,13 +69,13 @@ public:
             map.insert({ pos, name });
         }else if(name[0] == 'E'){
             characterList.insert({ name, make_unique<Enity>(newE, pos) });
-            characterList[name]->printEnity();
+            //characterList[name]->printEnity();
             enemyPop++;
             map.insert({ pos, name });
         }
         else if (name[0] == 'P' && !playerAdded) {
             characterList.insert({ name, make_unique<Enity>(newE, pos) });
-            characterList[name]->printEnity();
+            //characterList[name]->printEnity();
             playerAdded= true;
             map.insert({ pos, name });
         }
@@ -262,25 +261,22 @@ int main()
 
     // Use a while loop together with the getline() function to read the file line by line
     while (getline(MyReadFile, myText)) {
-        if (y < 1) {
-            
+        if (y < 20) {
             remove(myText.begin(), myText.end(), ' ');
             while (entities < 20) {
                 if (myText[x] != 'O') {
                     if (myText[x] == 'R') {
-                        cout << "R" << endl;
                         gb->addEnity("R", "R", (100*y+ entities));
                         entities++;
                         x++;
                     }
                     else if (myText[x] == 'E'){
-                        cout << "E" << endl;
                         gb->addEnity(myText.substr(x, 1) + myText.substr(x+2, 1), myText.substr(x, 3), (100 * y + entities));
                         entities++;
                         x+=3;
                     }
                     else if (myText[x] == 'P') {
-                        gb->addEnity(myText.substr(0, 1), myText.substr(0, 2), (100 * y + entities));
+                        gb->addEnity(myText.substr(x, 1), myText.substr(x, 2), (100 * y + entities));
                         entities++;
                         x += 2;
                     }
@@ -290,13 +286,14 @@ int main()
                     }
                 }
                 else {
-                    cout << "O" << endl;
                     entities++;
                     x++;
                 }
             }
         }
         y++;
+        entities = 0; 
+        x = 0;
     }
 
     // Close the file
