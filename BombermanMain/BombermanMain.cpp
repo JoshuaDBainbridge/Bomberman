@@ -55,8 +55,8 @@ public:
 
 class GameBoard {
 private: 
-    int mapSize = 5; 
-    bool playerWin = false; 
+    int mapSize = 3, enemyPop = 0;
+    bool playerWin = false, playerAdded = false; 
     unordered_map<string, unique_ptr<Enity>> characterList;
     unordered_map<int, string> map; 
 public: 
@@ -65,11 +65,24 @@ public:
         // characterList [(str)name] = Pointer to Enity Object
     }
     void addEnity(string name, string newE, int pos) {
-        if (name[0] != 'R') {
-            characterList.insert({name, make_unique<Enity>(newE, pos) });
+        if (name[0] == 'R') {
+            map.insert({ pos, name });
+        }else if(name[0] == 'E'){
+            characterList.insert({ name, make_unique<Enity>(newE, pos) });
             characterList[name]->printEnity();
+            enemyPop++;
+            map.insert({ pos, name });
         }
-        map.insert({ pos, name });
+        else if (name[0] == 'P' && !playerAdded) {
+            characterList.insert({ name, make_unique<Enity>(newE, pos) });
+            characterList[name]->printEnity();
+            playerAdded= true;
+            map.insert({ pos, name });
+        }
+        else {
+            std::cout << "ERROR: ENITY MISMATCH! Unknown enity: " << newE << std::endl;
+        }
+
         //std::cout << "\n" << map[pos];
         //characterList[map[pos]]->printEnity();
     }
@@ -248,6 +261,12 @@ int main()
     //testMap["A0E"] -> showDetails();
         
     unique_ptr<GameBoard> gb(new GameBoard());
+    gb->addEnity("E0", "EA0", 101);
+    gb->addEnity("P", "PA", 201);
+    gb->addEnity("R", "R", 202);
+    gb->addEnity("QW", "QAW", 0);
+    gb->paint();
+    /*
     gb->addEnity("E0","EA0", 101);
     gb->addEnity("E1", "EH1", 3);
     gb->addEnity("E2", "EV2", 2);
@@ -263,10 +282,10 @@ int main()
     //gb->moveEnityRIGHT("E0");
     
     //gb->attack("E0");
-    /*
+    
     gb->paint();
 
-    std::cout << " MOVE RIGHT " << std::endl;
+    std::cout << " MOVE LEFT " << std::endl;
     gb-> moveEnityLEFT("E0");
     gb->paint(); 
 
@@ -278,22 +297,30 @@ int main()
     gb->moveEnityDOWN("E0");
     gb->paint();
 
-    std::cout << " MOVE RIGHT " << std::endl;
+    std::cout << " MOVE LEFT " << std::endl;
     gb->moveEnityLEFT("E0");
     gb->paint();
 
-    gb->moveEnityUP("E0");
-    gb->paint();
-    
-    gb->moveEnityUP("E0");
-    gb->paint();
-
+    std::cout << " MOVE UP " << std::endl;
     gb->moveEnityUP("E0");
     gb->paint();
 
+    std::cout << " MOVE UP " << std::endl;
+    gb->moveEnityUP("E0");
+    gb->paint();
+    std::cout << " MOVE UP - ILLEGAL " << std::endl;
+    gb->moveEnityUP("E0");
+    gb->paint();
+
+    std::cout << " ATTACK " << std::endl;
     gb->attack("E1");
     gb->paint();
+
+    std::cout << " TRY MOVING DEAD PLAYER " << std::endl;
+    gb->moveEnityRIGHT("E0");
+    gb->paint();
     */
+
 
     std::cout << std::endl << "Hello World!\n";
 }
