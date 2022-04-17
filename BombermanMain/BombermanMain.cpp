@@ -249,11 +249,12 @@ int main()
         
     unique_ptr<GameBoard> gb(new GameBoard());
     gb->addEnity("E0","EA0", 101);
-    gb->addEnity("E1", "EV1", 3);
+    gb->addEnity("E1", "EH1", 3);
     gb->addEnity("E2", "EV2", 2);
     gb->addEnity("E3", "EV3", 1);
     gb->addEnity("E4","EV4", 103);
     gb->addEnity("R", "R", 202);
+
     //std::cout << gb->isSpaceEmpty(1919) << std::endl;
     //gb->deleteEnity("E0");
     //gb->moveEnityUP("E0");
@@ -262,11 +263,11 @@ int main()
     //gb->moveEnityRIGHT("E0");
     
     //gb->attack("E0");
-
+    /*
     gb->paint();
 
     std::cout << " MOVE RIGHT " << std::endl;
-    gb- HT("E0");
+    gb-> moveEnityLEFT("E0");
     gb->paint(); 
 
     std::cout << " Attack " << std::endl;
@@ -277,6 +278,22 @@ int main()
     gb->moveEnityDOWN("E0");
     gb->paint();
 
+    std::cout << " MOVE RIGHT " << std::endl;
+    gb->moveEnityLEFT("E0");
+    gb->paint();
+
+    gb->moveEnityUP("E0");
+    gb->paint();
+    
+    gb->moveEnityUP("E0");
+    gb->paint();
+
+    gb->moveEnityUP("E0");
+    gb->paint();
+
+    gb->attack("E1");
+    gb->paint();
+    */
 
     std::cout << std::endl << "Hello World!\n";
 }
