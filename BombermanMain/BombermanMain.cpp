@@ -55,7 +55,7 @@ public:
 
 class GameBoard {
 private: 
-    int mapSize = 20; 
+    int mapSize = 5; 
     bool playerWin = false; 
     unordered_map<string, unique_ptr<Enity>> characterList;
     unordered_map<int, string> map; 
@@ -69,7 +69,7 @@ public:
             characterList.insert({name, make_unique<Enity>(newE, pos) });
             characterList[name]->printEnity();
         }
-        map.insert({pos, name});
+        map.insert({ pos, name });
         //std::cout << "\n" << map[pos];
         //characterList[map[pos]]->printEnity();
     }
@@ -143,7 +143,7 @@ public:
     }
     
     void attack(string name) {
-        std::cout << "Attacking!" << std::endl;
+        //std::cout << "Attacking!" << std::endl;
         int x, y, atkPos;
         if (characterList[name] != NULL) {
             x = (characterList[name]->getPosition()) % 100;
@@ -153,7 +153,7 @@ public:
                     for (int i = x - 1; i <= x + 1; i++) {
                         atkPos = (100 * (j) + i);
 
-                        std::cout << atkPos << std::endl;
+                        //std::cout << atkPos << std::endl;
                         if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
                             if (map[atkPos][0] == 'E' || map[atkPos][0] == 'P') {
                                 deleteEnity(map[atkPos]);
@@ -198,17 +198,17 @@ public:
         }
     }
     void deleteEnity(string name) {
-        std::cout << "\n" << "DELETING: " << name << "\n";
+        //std::cout << "\n" << "DELETING: " << name << "\n";
 
         map.erase(characterList[name]->getPosition());
         if (map[characterList[name]->getPosition()].empty()) {
-            std::cout << "DID " << map[characterList[name]->getPosition()] << std::endl;
+            //std::cout << "DID " << map[characterList[name]->getPosition()] << std::endl;
         }
         characterList[name]->~Enity();
         characterList.erase(name);
 
         if (characterList[name] <= 0) {
-            std::cout << "DID it" << characterList[name] << std::endl;
+            //std::cout << "DID it" << characterList[name] << std::endl;
         }
     }
 
@@ -216,11 +216,11 @@ public:
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 std::cout << " ";
-                if (map[(100 * y) + x].empty()) {
+                if (isSpaceEmpty((100*y)+x)) {
                     std::cout << " 0 ";
                 }
-                else if (map[(100 * y) + x].compare("R")) {
-                    std::cout << " 0 ";
+                else if (map[(100 * y) + x][0]  == 'R') {
+                    std::cout << " R ";
                 }
                 else if (map[(100 * y) + x][0] == 'E') {
                     std::cout << characterList[map[100 * y + x]]->getID();
@@ -248,21 +248,33 @@ int main()
     //testMap["A0E"] -> showDetails();
         
     unique_ptr<GameBoard> gb(new GameBoard());
-    gb->addEnity("E0","EH0", 0000);
-    gb->addEnity("E1", "EV1", 910);
-    gb->addEnity("E2", "EV2", 1110);
-    gb->addEnity("E3", "EV3", 1009);
-    gb->addEnity("E4","EV4", 1011);
-    gb->addEnity("R", "R", 0000);
-    std::cout << gb->isSpaceEmpty(1919) << std::endl;
+    gb->addEnity("E0","EA0", 101);
+    gb->addEnity("E1", "EV1", 3);
+    gb->addEnity("E2", "EV2", 2);
+    gb->addEnity("E3", "EV3", 1);
+    gb->addEnity("E4","EV4", 103);
+    gb->addEnity("R", "R", 202);
+    //std::cout << gb->isSpaceEmpty(1919) << std::endl;
     //gb->deleteEnity("E0");
-    gb->moveEnityUP("E0");
-    gb->moveEnityDOWN("E0");
-    gb->moveEnityLEFT("E0");
-    gb->moveEnityRIGHT("E0");
+    //gb->moveEnityUP("E0");
+    //gb->moveEnityDOWN("E0");
+    //gb->moveEnityLEFT("E0");
+    //gb->moveEnityRIGHT("E0");
     
-    gb->attack("E0");
+    //gb->attack("E0");
 
+    gb->paint();
+
+    std::cout << " MOVE RIGHT " << std::endl;
+    gb- HT("E0");
+    gb->paint(); 
+
+    std::cout << " Attack " << std::endl;
+    gb->attack("E0");
+    gb->paint();
+
+    std::cout << " TRY MOVE DOWN " << std::endl;
+    gb->moveEnityDOWN("E0");
     gb->paint();
 
 
