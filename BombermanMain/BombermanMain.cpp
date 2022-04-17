@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <string>
+
+#include <fstream>
 using namespace std;
 
 class Enity {
@@ -48,14 +50,13 @@ public:
         return id; 
     }
     void printEnity() {
-        std::cout << "Type: " << type << " Wepon: " << weapon << " y-> " << position / 100 << " pos: x-> " << position%100  <<  std::endl;
+        std::cout <<"ID" << id << "Type: " << type << " Wepon: " << weapon << " y-> " << position / 100 << " pos: x-> " << position%100  <<  std::endl;
     }
     ~Enity(){}
 };
-
 class GameBoard {
 private: 
-    int mapSize = 3, enemyPop = 0;
+    int mapSize = 20, enemyPop = 0;
     bool playerWin = false, playerAdded = false; 
     unordered_map<string, unique_ptr<Enity>> characterList;
     unordered_map<int, string> map; 
@@ -230,7 +231,7 @@ public:
             for (int x = 0; x < mapSize; x++) {
                 std::cout << " ";
                 if (isSpaceEmpty((100*y)+x)) {
-                    std::cout << " 0 ";
+                    std::cout << " O ";
                 }
                 else if (map[(100 * y) + x][0]  == 'R') {
                     std::cout << " R ";
@@ -245,10 +246,65 @@ public:
             std::cout<<std::endl; 
         }
     }
+    ~GameBoard() {}
 };
 
 int main()
 {
+    // Create a text string, which is used to output the text file
+    int y = 0, x=0;
+    int entities = 0; 
+    string myText;
+    unique_ptr<GameBoard> gb(new GameBoard());
+
+    // Read from the text file
+    ifstream MyReadFile("example_input.txt");
+
+    // Use a while loop together with the getline() function to read the file line by line
+    while (getline(MyReadFile, myText)) {
+        if (y < 1) {
+            
+            remove(myText.begin(), myText.end(), ' ');
+            while (entities < 20) {
+                if (myText[x] != 'O') {
+                    if (myText[x] == 'R') {
+                        cout << "R" << endl;
+                        gb->addEnity("R", "R", (100*y+ entities));
+                        entities++;
+                        x++;
+                    }
+                    else if (myText[x] == 'E'){
+                        cout << "E" << endl;
+                        gb->addEnity(myText.substr(x, 1) + myText.substr(x+2, 1), myText.substr(x, 3), (100 * y + entities));
+                        entities++;
+                        x+=3;
+                    }
+                    else if (myText[x] == 'P') {
+                        gb->addEnity(myText.substr(0, 1), myText.substr(0, 2), (100 * y + entities));
+                        entities++;
+                        x += 2;
+                    }
+                    else {
+                        entities++;
+                        x++;
+                    }
+                }
+                else {
+                    cout << "O" << endl;
+                    entities++;
+                    x++;
+                }
+            }
+        }
+        y++;
+    }
+
+    // Close the file
+    MyReadFile.close();
+    std::cout << endl;
+    std::cout << endl;
+    std::cout << endl;
+    gb->paint();
     //GameBoard gb;
     //Enity test("PA", "0000");
     //test.showDetails();
@@ -259,13 +315,15 @@ int main()
     //unique_ptr<Enity> test2 (new Enity("EA0", "0001"));
     //test2->showDetails();
     //testMap["A0E"] -> showDetails();
-        
+    
+    /*
     unique_ptr<GameBoard> gb(new GameBoard());
     gb->addEnity("E0", "EA0", 101);
     gb->addEnity("P", "PA", 201);
     gb->addEnity("R", "R", 202);
     gb->addEnity("QW", "QAW", 0);
     gb->paint();
+    */
     /*
     gb->addEnity("E0","EA0", 101);
     gb->addEnity("E1", "EH1", 3);

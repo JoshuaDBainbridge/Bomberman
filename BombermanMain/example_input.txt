@@ -1,0 +1,47 @@
+R   R   O   O   EV0 O   O   O   R   O   O   R   R   O   O   R   R   O   R   R   
+O   R   O   O   O   O   O   O   R   O   O   R   R   R   O   O   O   O   O   R   
+O   O   O   O   O   O   R   O   O   O   O   O   O   R   R   O   EA1 O   O   O   
+O   O   O   R   O   R   R   O   O   O   R   O   O   O   O   O   O   O   O   R   
+EH2 O   O   R   O   O   O   O   O   R   R   O   O   O   O   R   O   O   O   R   
+O   O   O   R   O   O   O   O   O   R   O   O   O   O   O   R   O   O   O   O   
+O   O   O   R   O   O   O   R   R   R   O   O   EA3 O   R   R   O   O   O   O   
+O   O   O   O   O   O   O   R   R   R   O   O   O   O   R   R   O   O   O   O   
+O   O   O   EH4 O   O   O   O   R   R   O   O   O   O   R   O   O   O   O   O   
+R   R   O   O   O   O   O   O   O   O   O   O   O   O   R   O   O   O   O   O   
+R   R   O   O   O   O   O   O   O   O   PA  O   O   O   O   O   EA5 O   O   O   
+O   O   O   O   O   O   O   O   O   O   O   O   O   O   O   O   O   O   R   R   
+O   O   EV6 O   O   R   R   O   O   O   O   O   R   R   O   O   O   O   R   R   
+O   O   O   O   O   R   R   O   O   O   O   O   R   O   O   O   O   O   O   O   
+O   R   R   O   O   O   O   O   O   R   O   O   O   O   O   O   O   O   O   O   
+O   O   O   O   O   O   O   O   O   O   O   EH7 O   R   O   O   O   R   O   O   
+O   O   O   O   O   R   O   O   O   O   O   O   O   R   O   O   O   O   O   O   
+O   O   O   O   O   R   O   O   O   O   O   O   O   O   O   O   EA8 O   O   O   
+O   O   O   O   O   O   O   O   O   R   R   O   O   O   O   O   O   O   R   R   
+R   R   O   O   EH9 O   O   O   O   O   O   O   O   O   R   O   O   O   R   R   
+PR
+PR
+PR
+E5L
+PF
+E5F
+PR
+PF
+PU
+PL
+PL
+PF
+E3F
+E3D
+E3D
+E3F
+PF
+PU
+PF
+E4F
+PL
+E6F
+E7F
+PL
+PL
+E4D
+E4F
