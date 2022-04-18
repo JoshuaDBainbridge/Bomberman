@@ -179,7 +179,8 @@ public:
                 }
             }
             else if (characterList[name]->getWeapon() == 'V') {
-                for (int j = 0; j < mapSize; j++) {
+                int y = characterList[name]->getPosition() / 100; 
+                for (int j = y; j < mapSize; j++) {
                     atkPos = (100 * (j)+x);
                     if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
                         if (map[atkPos][0] == 'E') {
@@ -189,11 +190,30 @@ public:
                         else if (map[atkPos][0] == 'P') {
                             playerDead = true;
                         }
+                        else if (map[atkPos][0] == 'R') {
+                            break;
+                        }
+                    }
+                }
+                for (int j = y; j >= 0; j++) {
+                    atkPos = (100 * (j)+x);
+                    if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
+                        if (map[atkPos][0] == 'E') {
+                            deleteEnity(map[atkPos]);
+                            enemyPop--;
+                        }
+                        else if (map[atkPos][0] == 'P') {
+                            playerDead = true;
+                        }
+                        else if (map[atkPos][0] == 'R') {
+                            break;
+                        }
                     }
                 }
             }
             else if (characterList[name]->getWeapon() == 'H') {
-                for (int i = 0; i < mapSize; i++) {
+                int x = characterList[name]->getPosition() % 100;
+                for (int i = x; i < mapSize; i++) {
                     atkPos = (100 * (y)+i);
                     if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
                         if (map[atkPos][0] == 'E') {
@@ -203,8 +223,27 @@ public:
                         else if (map[atkPos][0] == 'P') {
                             playerDead = true;
                         }
+                        else if (map[atkPos][0] == 'R') {
+                            break;
+                        }
                     }
                 }
+                for (int i = x; i >= 0; i--) {
+                    atkPos = (100 * (y)+i);
+                    if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
+                        if (map[atkPos][0] == 'E') {
+                            deleteEnity(map[atkPos]);
+                            enemyPop--;
+                        }
+                        else if (map[atkPos][0] == 'P') {
+                            playerDead = true;
+                        }
+                        else if (map[atkPos][0] == 'R') {
+                            break;
+                        }
+                    }
+                }
+
             }
             else {
                 std::cout << "WEAPON ERROR: UNKNOWN WEAPON" << std::endl;
@@ -367,7 +406,7 @@ int main()
         std::cout << "THE GAME ENDED: PLAYER LOST" << std::endl;
     }
     else {
-        std::cout << "THE GAME ENDED: ERROR" << std::endl;
+        std::cout << "THE GAME ENDED IN A STALEMATE" << std::endl;
     }
     std::cout << endl;
     std::cout << endl;
