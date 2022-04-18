@@ -317,6 +317,10 @@ public:
 
 int main()
 {
+    std::cout << "()...WELCOME TO BOMBERMAN...() " << std::endl; 
+    std::cout << "-playing with default 20 by 20 board " << endl;
+    //std::cout << "~IMPORT GAME BOARD~";
+
     // Create a text string, which is used to output the text file
     int y = 0, x=0;
     int entities = 0; 
@@ -383,13 +387,12 @@ int main()
         }
 
     }
-
+    
     // Close the file
     MyReadFile.close();
     std::cout << endl;
     gb->gameResults();
-    std::cout << endl;
-    std::cout << endl;
+    std::cout <<"FINAL BOARD: "<< std::endl;
     gb->paint();
 
     //GameBoard gb;
