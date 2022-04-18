@@ -56,7 +56,7 @@ public:
 class GameBoard {
 private: 
     int mapSize = 20, enemyPop = 0;
-    bool playerWin = false, playerAdded = false; 
+    bool playerWin = false, playerAdded = false, playerDead = false; 
     unordered_map<string, unique_ptr<Enity>> characterList;
     unordered_map<int, string> map; 
 public: 
@@ -165,11 +165,14 @@ public:
                 for (int j = y - 1; j <= y + 1; j++) {
                     for (int i = x - 1; i <= x + 1; i++) {
                         atkPos = (100 * (j) + i);
-
                         //std::cout << atkPos << std::endl;
                         if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
-                            if (map[atkPos][0] == 'E' || map[atkPos][0] == 'P') {
+                            if (map[atkPos][0] == 'E') {
                                 deleteEnity(map[atkPos]);
+                                enemyPop--; 
+                            }
+                            else if(map[atkPos][0] == 'P'){
+                                playerDead = true; 
                             }
                         }
                     }
@@ -179,8 +182,12 @@ public:
                 for (int j = 0; j < mapSize; j++) {
                     atkPos = (100 * (j)+x);
                     if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
-                        if (map[atkPos][0] == 'E' || map[atkPos][0] == 'P') {
+                        if (map[atkPos][0] == 'E') {
                             deleteEnity(map[atkPos]);
+                            enemyPop--;
+                        }
+                        else if (map[atkPos][0] == 'P') {
+                            playerDead = true;
                         }
                     }
                 }
@@ -189,8 +196,12 @@ public:
                 for (int i = 0; i < mapSize; i++) {
                     atkPos = (100 * (y)+i);
                     if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
-                        if (map[atkPos][0] == 'E' || map[atkPos][0] == 'P') {
+                        if (map[atkPos][0] == 'E') {
                             deleteEnity(map[atkPos]);
+                            enemyPop--;
+                        }
+                        else if (map[atkPos][0] == 'P') {
+                            playerDead = true;
                         }
                     }
                 }
@@ -200,7 +211,20 @@ public:
             }
         }
     }
-    bool gameOver() {
+    int gameResults() {
+        if (enemyPop <= 0 && playerDead) {
+            return 1;
+        }
+        else if (enemyPop <= 0) {
+            return 2;
+        }
+        else if (playerDead) {
+            return 3;
+        }
+        else {
+            return 4; 
+        }
+
     }
     bool isSpaceEmpty(int pos) {
         if (map[pos].empty()) {
@@ -239,7 +263,12 @@ public:
                     std::cout << characterList[map[100 * y + x]]->getID();
                 }
                 else {
-                    std::cout << characterList[map[100 * y + x]]->getID() << " ";
+                    if (!playerAdded) {
+                        std::cout << characterList[map[100 * y + x]]->getID() << " ";
+                    }
+                    else {
+                        std::cout << " X ";
+                    }
                 }
             }
             std::cout<<std::endl; 
@@ -321,10 +350,6 @@ int main()
             else {
                 std::cout << "MISMATCH ERROR: COMMAND " << myText[myText.length() - 1] << "is not valid" << std::endl; 
             }
-            std::cout << endl;
-            std::cout << "ACTION: " << myText << std::endl;
-            gb->paint();
-            std::cout << endl;
         }
 
     }
@@ -332,6 +357,18 @@ int main()
     // Close the file
     MyReadFile.close();
     std::cout << endl;
+    if (gb->gameResults() == 1) {
+        std::cout << "THE GAME ENDED IN A STALEMATE" << std::endl;
+    }
+    else if (gb->gameResults() == 2) {
+        std::cout << "THE GAME ENDED: PLAYER WON" << std::endl;
+    }
+    else if (gb->gameResults() == 3) {
+        std::cout << "THE GAME ENDED: PLAYER LOST" << std::endl;
+    }
+    else {
+        std::cout << "THE GAME ENDED: ERROR" << std::endl;
+    }
     std::cout << endl;
     std::cout << endl;
     gb->paint();
