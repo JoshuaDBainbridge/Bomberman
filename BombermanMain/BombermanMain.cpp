@@ -261,6 +261,14 @@ int main()
 
     // Use a while loop together with the getline() function to read the file line by line
     while (getline(MyReadFile, myText)) {
+        if (y == 20) {
+            std::cout << endl;
+            std::cout << "START: " << endl;
+            gb->paint();
+            std::cout << endl;
+
+            y++;
+        }
         if (y < 20) {
             remove(myText.begin(), myText.end(), ' ');
             while (entities < 20) {
@@ -290,10 +298,35 @@ int main()
                     x++;
                 }
             }
+            y++;
+            entities = 0;
+            x = 0;
         }
-        y++;
-        entities = 0; 
-        x = 0;
+        else {
+            if (myText[myText.length() - 1] == 'U') {
+                gb->moveEnityUP(myText.substr(0, myText.length() - 1));
+            }
+            else if (myText[myText.length() - 1] == 'D') {
+                gb->moveEnityDOWN(myText.substr(0, myText.length() - 1));
+            }
+            else if (myText[myText.length() - 1] == 'L') {
+                gb->moveEnityLEFT(myText.substr(0, myText.length() - 1));
+            }
+            else if (myText[myText.length() - 1] == 'R') {
+                gb->moveEnityRIGHT(myText.substr(0, myText.length() - 1));
+            }
+            else if (myText[myText.length() - 1] == 'F') {
+                gb->attack(myText.substr(0, myText.length() - 1));
+            }
+            else {
+                std::cout << "MISMATCH ERROR: COMMAND " << myText[myText.length() - 1] << "is not valid" << std::endl; 
+            }
+            std::cout << endl;
+            std::cout << "ACTION: " << myText << std::endl;
+            gb->paint();
+            std::cout << endl;
+        }
+
     }
 
     // Close the file
