@@ -1,2 +1,3 @@
 ﻿  BombermanMain.cpp
+C:\Users\jdbai\Documents\Projects\BombermanGame\Bomberman\BombermanMain\BombermanMain.cpp(332,13): warning C4834: discarding return value of function with 'nodiscard' attribute
   BombermanMain.vcxproj -> C:\Users\jdbai\Documents\Projects\BombermanGame\Bomberman\BombermanMain\Debug\BombermanMain.exe

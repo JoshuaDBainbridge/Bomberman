@@ -55,7 +55,7 @@ public:
 };
 class GameBoard {
 private: 
-    int mapSize = 5, enemyPop = 0;
+    int mapSize = 20, enemyPop = 0;
     bool playerWin = false, playerAdded = false, playerDead = false; 
     unordered_map<string, unique_ptr<Enity>> characterList;
     unordered_map<int, string> map; 
@@ -98,7 +98,7 @@ public:
                     map.erase(characterList[name]->getPosition());
                     map[newPos] = name;
                     characterList[name]->setPosition(newPos);
-                    characterList[name]->printEnity();
+                    //characterList[name]->printEnity();
                 }
             }
         }
@@ -115,7 +115,7 @@ public:
                     map.erase(characterList[name]->getPosition());
                     map[newPos] = name;
                     characterList[name]->setPosition(newPos);
-                    characterList[name]->printEnity();
+                    //characterList[name]->printEnity();
                 }
             }
         }
@@ -132,7 +132,7 @@ public:
                     map.erase(characterList[name]->getPosition());
                     map[newPos] = name;
                     characterList[name]->setPosition(newPos);
-                    characterList[name]->printEnity();
+                    //characterList[name]->printEnity();
                 }
             }
         }
@@ -149,7 +149,7 @@ public:
                     map.erase(characterList[name]->getPosition());
                     map[newPos] = name;
                     characterList[name]->setPosition(newPos);
-                    characterList[name]->printEnity();
+                    //characterList[name]->printEnity();
                 }
             }
         }
@@ -317,7 +317,6 @@ public:
 
 int main()
 {
-    /*
     // Create a text string, which is used to output the text file
     int y = 0, x=0;
     int entities = 0; 
@@ -325,18 +324,10 @@ int main()
     unique_ptr<GameBoard> gb(new GameBoard());
 
     // Read from the text file
-    ifstream MyReadFile("example_input.txt");
+    ifstream MyReadFile("input.txt");
 
     // Use a while loop together with the getline() function to read the file line by line
     while (getline(MyReadFile, myText)) {
-        if (y == 20) {
-            std::cout << endl;
-            std::cout << "START: " << endl;
-            gb->paint();
-            std::cout << endl;
-
-            y++;
-        }
         if (y < 20) {
             remove(myText.begin(), myText.end(), ' ');
             while (entities < 20) {
@@ -396,24 +387,10 @@ int main()
     // Close the file
     MyReadFile.close();
     std::cout << endl;
-    if (gb->gameResults() == 1) {
-        std::cout << "THE GAME ENDED IN A STALEMATE" << std::endl;
-    }
-    else if (gb->gameResults() == 2) {
-        std::cout << "THE GAME ENDED: PLAYER WON" << std::endl;
-    }
-    else if (gb->gameResults() == 3) {
-        std::cout << "THE GAME ENDED: PLAYER LOST" << std::endl;
-    }
-    else {
-        std::cout << "THE GAME ENDED IN A STALEMATE" << std::endl;
-    }
+    gb->gameResults();
     std::cout << endl;
     std::cout << endl;
     gb->paint();
-
-    */
-
 
     //GameBoard gb;
     //Enity test("PA", "0000");
@@ -488,6 +465,7 @@ int main()
     gb->moveEnityRIGHT("E0");
     gb->paint();
     */
+    /*
     unique_ptr<GameBoard> gb(new GameBoard());
     gb->addEnity("E0", "EH0", 301);
     gb->addEnity("E1", "EH1", 300);
@@ -497,7 +475,10 @@ int main()
     gb->attack("E0");
     gb->paint();
     gb->gameResults();
-    std::cout << std::endl << "Hello World!\n";
+    */
+
+    //std::cout << std::endl << "Hello World!\n";
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
