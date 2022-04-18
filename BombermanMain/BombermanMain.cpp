@@ -51,6 +51,12 @@ public:
     void printEnity() {
         std::cout <<"ID" << id << "Type: " << type << " Wepon: " << weapon << " y-> " << position / 100 << " pos: x-> " << position%100  <<  std::endl;
     }
+    void playerKilled() {
+        alive = false;
+    }
+    bool isPlayerAlive() {
+        return alive; 
+    }
     ~Enity(){}
 };
 class GameBoard {
@@ -86,6 +92,7 @@ public:
         //std::cout << "\n" << map[pos];
         //characterList[map[pos]]->printEnity();
     }
+    
     void moveEnityUP(string name) {
         int x, y, newPos; 
         if (characterList[name] != NULL){
@@ -93,8 +100,7 @@ public:
             y = (characterList[name]->getPosition()) / 100;
             if (y > 0) {
                 newPos = (100 * (y - 1) + x);
-
-                if (isSpaceEmpty(newPos)) {
+                if (isSpaceEmpty(newPos) && characterList[name]->isPlayerAlive()) {
                     map.erase(characterList[name]->getPosition());
                     map[newPos] = name;
                     characterList[name]->setPosition(newPos);
@@ -111,7 +117,7 @@ public:
             if (y < 19) {
                 newPos = (100 * (y + 1) + x);
 
-                if (isSpaceEmpty(newPos)) {
+                if (isSpaceEmpty(newPos) && characterList[name]->isPlayerAlive()) {
                     map.erase(characterList[name]->getPosition());
                     map[newPos] = name;
                     characterList[name]->setPosition(newPos);
@@ -128,7 +134,7 @@ public:
             if (x > 0) {
                 newPos = (100 * y + (x - 1));
 
-                if (isSpaceEmpty(newPos)) {
+                if (isSpaceEmpty(newPos) && characterList[name]->isPlayerAlive()) {
                     map.erase(characterList[name]->getPosition());
                     map[newPos] = name;
                     characterList[name]->setPosition(newPos);
@@ -145,7 +151,7 @@ public:
             if (x < 19) {
                 newPos = (100 * y + (x + 1));
 
-                if (isSpaceEmpty(newPos)) {
+                if (isSpaceEmpty(newPos) && characterList[name]->isPlayerAlive()) {
                     map.erase(characterList[name]->getPosition());
                     map[newPos] = name;
                     characterList[name]->setPosition(newPos);
@@ -172,7 +178,8 @@ public:
                                 enemyPop--; 
                             }
                             else if(map[atkPos][0] == 'P'){
-                                playerDead = true; 
+                                playerDead = true;
+                                characterList[map[atkPos]]->playerKilled();
                             }
                         }
                     }
@@ -189,6 +196,7 @@ public:
                         }
                         else if (map[atkPos][0] == 'P') {
                             playerDead = true;
+                            characterList[map[atkPos]]->playerKilled();
                         }
                         else if (map[atkPos][0] == 'R') {
                             break;
@@ -204,6 +212,7 @@ public:
                         }
                         else if (map[atkPos][0] == 'P') {
                             playerDead = true;
+                            characterList[map[atkPos]]->playerKilled();
                         }
                         else if (map[atkPos][0] == 'R') {
                             break;
@@ -222,6 +231,7 @@ public:
                         }
                         else if (map[atkPos][0] == 'P') {
                             playerDead = true;
+                            characterList[map[atkPos]]->playerKilled();
                         }
                         else if (map[atkPos][0] == 'R') {
                             break;
@@ -237,6 +247,7 @@ public:
                         }
                         else if (map[atkPos][0] == 'P') {
                             playerDead = true;
+                            characterList[map[atkPos]]->playerKilled();
                         }
                         else if (map[atkPos][0] == 'R') {
                             break;
