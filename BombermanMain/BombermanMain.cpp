@@ -55,7 +55,7 @@ public:
 };
 class GameBoard {
 private: 
-    int mapSize = 20, enemyPop = 0;
+    int mapSize = 5, enemyPop = 0;
     bool playerWin = false, playerAdded = false, playerDead = false; 
     unordered_map<string, unique_ptr<Enity>> characterList;
     unordered_map<int, string> map; 
@@ -195,7 +195,7 @@ public:
                         }
                     }
                 }
-                for (int j = y; j >= 0; j++) {
+                for (int j = y; j >= 0; j--) {
                     atkPos = (100 * (j)+x);
                     if (!map[atkPos].empty() && atkPos != (characterList[name]->getPosition())) {
                         if (map[atkPos][0] == 'E') {
@@ -250,20 +250,19 @@ public:
             }
         }
     }
-    int gameResults() {
+    void gameResults() {
         if (enemyPop <= 0 && playerDead) {
-            return 1;
+            std::cout << "THE GAME ENDED IN A STALEMATE" << std::endl;
         }
         else if (enemyPop <= 0) {
-            return 2;
+            std::cout << "THE GAME ENDED: PLAYER WON" << std::endl;
         }
         else if (playerDead) {
-            return 3;
+            std::cout << "THE GAME ENDED: PLAYER LOST" << std::endl;
         }
         else {
-            return 4; 
+            std::cout << "THE GAME ENDED IN A STALEMATE" << std::endl;
         }
-
     }
     bool isSpaceEmpty(int pos) {
         if (map[pos].empty()) {
@@ -302,7 +301,7 @@ public:
                     std::cout << characterList[map[100 * y + x]]->getID();
                 }
                 else {
-                    if (!playerAdded) {
+                    if (!playerDead) {
                         std::cout << characterList[map[100 * y + x]]->getID() << " ";
                     }
                     else {
@@ -318,6 +317,7 @@ public:
 
 int main()
 {
+    /*
     // Create a text string, which is used to output the text file
     int y = 0, x=0;
     int entities = 0; 
@@ -411,6 +411,10 @@ int main()
     std::cout << endl;
     std::cout << endl;
     gb->paint();
+
+    */
+
+
     //GameBoard gb;
     //Enity test("PA", "0000");
     //test.showDetails();
@@ -484,8 +488,15 @@ int main()
     gb->moveEnityRIGHT("E0");
     gb->paint();
     */
-
-
+    unique_ptr<GameBoard> gb(new GameBoard());
+    gb->addEnity("E0", "EH0", 301);
+    gb->addEnity("E1", "EH1", 300);
+    gb->addEnity("P", "PH", 303);
+    gb->addEnity("R", "R", 302);
+    gb->paint();
+    gb->attack("E0");
+    gb->paint();
+    gb->gameResults();
     std::cout << std::endl << "Hello World!\n";
 }
 
