@@ -1,2 +1,1 @@
-# Cplusplus 
-ssh passphrase: beardog
+# Cplusplus
